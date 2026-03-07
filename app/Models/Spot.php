@@ -18,8 +18,8 @@ class Spot extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
-    // JSON変換時に署名付きs3URLをJSONに追加
+
+    // JSON変換時に署名付きs3URLを追加
     protected $appends = ['S3Url'];
 
     // s3参照URLを生成するアクセサ

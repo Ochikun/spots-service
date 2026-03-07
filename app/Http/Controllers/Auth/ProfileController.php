@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Services\ImageService;
 
 class ProfileController extends Controller
 {
@@ -19,7 +18,7 @@ class ProfileController extends Controller
     }
 
 
-    public function update(UpdateProfileRequest $request,ImageService $imageService)
+    public function update(UpdateProfileRequest $request)
     {
         $updateData = $request->validated();
         $user = Auth::user();
@@ -28,7 +27,7 @@ class ProfileController extends Controller
                 if(!empty($user->image)){
                     Storage::disk('s3')->delete($user->image);
                 }
-                $updateData['image'] = $imageService->saveImage($request->file('image'));
+                $updateData['image'] = $request->file('image')->store('photos','s3');
             }
             $user->update($updateData);
 

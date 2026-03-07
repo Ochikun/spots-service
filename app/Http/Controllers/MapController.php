@@ -15,7 +15,7 @@ class MapController extends Controller
 
         $categories =Category::all();
 
-        //withでsqlの過剰発行を抑える
+        //withでクエリの過剰発行を抑える
         $query = Auth::user()->spots()->with('category');
 
         //spots.showからの呼出しの場合は1件の記事をmap.indexに渡して表示
@@ -26,7 +26,7 @@ class MapController extends Controller
             $query = $searchService->applyQuery($query,$request);
             $spots = $query->get();
         }
-        
+
         return view('map.index',['spots' => $spots, 'categories' => $categories]);
     }
 }

@@ -19,9 +19,9 @@ class StoreSpotRequest extends FormRequest
             'date' => ['required','date'],
             'image' =>[
                 'nullable',
-                'file',
-                'mimes:jpg,jpeg,png,heic,heif',
-                'max:4000'
+                'file:image',
+                'mimes:jpg,jpeg,png',
+                'max:2000'
             ],
             'category_id' => ['required','exists:categories,id'],
             'lat' => ['required'],

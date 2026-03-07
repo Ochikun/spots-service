@@ -71,6 +71,7 @@
             @yield('content')
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+
         </main>
         <!--ページ毎の内容-->
 

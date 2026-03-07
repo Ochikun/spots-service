@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use App\Services\ImageService;
 
 
 class SpotController extends Controller
@@ -31,14 +30,15 @@ class SpotController extends Controller
     }
 
     //日記保存処理
-    public function store(StoreSpotRequest $request,ImageService $imageService)
+    public function store(StoreSpotRequest $request)
     {
         $validated = $request->validated();
         //s3への保存とファイルパスを返す
         try{
             if($request->hasFile('image')){
-                $validated['image'] = $imageService->saveImage($request->file('image'));
+                $validated['image'] = $request->file('image')->store('photos','s3');
             }
+
             Auth::user()->spots()->create($validated);
 
             return to_route('map.index')->with('success','日記を追加しました');
@@ -105,7 +105,7 @@ class SpotController extends Controller
     }
 
     //日記編集処理
-    public function update(UpdateSpotRequest $request, $id, ImageService $imageService)
+    public function update(UpdateSpotRequest $request, $id)
     {
         $spot = Auth::user()->spots()->findOrFail($id);
         $updateData = $request->validated();
@@ -114,12 +114,12 @@ class SpotController extends Controller
                 if(!empty($spot->image)){
                     Storage::disk('s3')->delete($spot->image);
                 }
-                $updateData['image'] = $imageService->saveImage($request->file('image'));
+                $updateData['image'] = $request->file('image')->store('photos','s3');
             }
             $spot->update($updateData);
 
             return to_route('spots.show',['spot' => $spot])->with('success','日記を更新しました');
-        }catch(Excption $e){
+        }catch(Exception $e){
             return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
         }
 

@@ -75,29 +75,21 @@
             </a>
         </div>
     </div>
-
+    
+    <script src="/js/convHeicImage.js"></script>
     <script>
         //画像プレビュー
         const imageInput = document.getElementById('image');
         const previewImage = document.getElementById('previewImage');
 
-        //Heic拡張子をjpg変換
-        imageInput.onchange = async (e) => {
-            let [file] = imageInput.files;
-            if (!file) return;
-            // HEIC形式ならJPGに変換
-            if (file.type === '' && file.name.toLowerCase().endsWith(".heic")) {
-                try {
-                    const blob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.7 });
-                    previewImage.src = URL.createObjectURL(blob);
-                } catch (err) {
-                    console.error("HEIC変換エラー:", err);
-                }
-            } else {
-                //JPG/PNGはそのまま
-                previewImage.src = URL.createObjectURL(file);
-            }
+        //画像Heic拡張子をjpg変換
+        imageInput.onchange = async () => {
+            if(imageInput.files.length === 0) return;
+            const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput);
+            previewImage.src = url;
+
         };
+
 
     </script>
 
