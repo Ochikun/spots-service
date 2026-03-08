@@ -10,16 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     L.tileLayer('https://tile.openstreetmap.jp/{z}/{x}/{y}.png', {
         attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
     }).addTo(map);
-    //showからの場合は緯度経度を拡大して表示
-    //これがないとデータが一件のみの時に拡大表示される
-    const params = new URLSearchParams(window.location.search);
-    const hasSpotId = params.has('spot_id');
-    if (hasSpotId && window.spots.length === 1) {
-        const spot = window.spots[0];
-        map.setView([spot.lat, spot.lng], 16);
-    } else {
-        map.setView([37.681236, 139.767125], 6);
+
+    //住所検索機能
+    const option = {
+        collapsed: false, //コントローラーの折り畳み
+        placeholder: '場所を入力してください', //プレースホルダーテキスト
+        errorMessage: '見つかりませんでした',
+        showUniqueResult: false,
     }
+    L.Control.geocoder(option).addTo(map);
 
     // モーダルの初期化処理
     map.on("click", function(e){//mapの緯度経度情報が入る
@@ -36,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         openModal(e.latlng.lat,e.latlng.lng);
     });
 
-    //モーダルを開く処理
+    //モーダルを開く機能
     window.openModal = function(lat = null, lng = null){
         spotModal.classList.remove("hidden");
         if((lat!==null) && (lng!==null)){
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // モーダルを閉じる処理
+    // モーダルを閉じる機能
     closeModal.addEventListener("click",() => {
         spotModal.classList.add("hidden");
     });
@@ -109,6 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
         L.marker([spot.lat, spot.lng], { icon }).addTo(map);
     });
 
+    //マップのズーム距離最適化処理
+    //spots.show経由の場合は緯度経度を拡大して表示
+    //データが一件のみの時に拡大表示されないようにする
+    const params = new URLSearchParams(window.location.search);
+    const hasSpotId = params.has('spot_id');
+    if (hasSpotId && window.spots.length === 1) {
+        const spot = window.spots[0];
+        map.setView([spot.lat, spot.lng], 16);
+    } else {
+        map.setView([37.681236, 139.767125], 6);
+    }
 
 
     //位置情報取得、地図移動

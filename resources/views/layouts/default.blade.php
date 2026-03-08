@@ -4,7 +4,11 @@
         <title>@yield('title', '旅日記')</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
     </head>
 
     <body class="antialiased bg-body text-body font-body">
@@ -25,7 +29,7 @@
                             <!--プロフィール欄-->
                             <button type="button" id="userMenuBtn" class="flex items-center pl-2 md:pl-4 border-l border-gray-400 focus:outline-none cursor-pointer">
                                 <span class="text-sm text-gray-700 font-medium truncate max-w-[70px] md:max-w-[150px] inline-block">
-                                    {{ \Auth::user()->name }}
+                                    {{\Auth::user()->name}}
                                 </span>
                                 <img class="ml-2 md:ml-3 w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-white shadow-sm"
                                      src="{{\Auth::user()->S3Url ?? asset('storage/photos/noprofile.jpg')}}">
@@ -69,9 +73,6 @@
         <!--ページ毎の内容-->
         <main>
             @yield('content')
-            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
-
         </main>
         <!--ページ毎の内容-->
 
@@ -92,7 +93,7 @@
             <ul>
                 <li class="font-bold mb-2">その他</li>
                 <li><a href="/contact" class="text-gray-400 hover:text-white text-sm">お問い合わせ</a></li>
-                <li><a href="https://github.com/あなたのユーザー名" class="text-gray-400 hover:text-white text-sm">GitHub</a></li>
+                <li><a href="https://github.com/Ochikun" class="text-gray-400 hover:text-white text-sm">GitHub</a></li>
             </ul>
         </div>
     </div>

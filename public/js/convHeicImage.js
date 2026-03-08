@@ -42,8 +42,6 @@ window.handleHeicAndReplace = async function(file, inputElement){
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(result.newFile);
       inputElement.files = dataTransfer.files;
-
-      console.log(inputElement.files[0].name);//消す
   }
   return result.previewUrl;
 }

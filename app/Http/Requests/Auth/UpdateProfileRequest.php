@@ -18,7 +18,7 @@ class UpdateProfileRequest extends FormRequest
             'image' => [
                 'nullable',
                 'file:image',
-                'max:2000',
+                'max:3000',
                 'mimes:jpeg,jpg,png',
             ],
             'introduction' => ['nullable','string','max:255'],

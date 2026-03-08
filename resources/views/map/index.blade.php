@@ -2,6 +2,8 @@
 
 
 @section('content')
+
+
     <section class="bg-gray-100">
         @if(session('success'))
             <p class="text-green-600 bg-green-50 px-4 py-2 rounded border border-green-200">{{ session('success') }}</p>
@@ -205,7 +207,6 @@
                     if(imageInput.files.length === 0) return;
                     const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput);
                     previewImage.src = url;
-
                 };
 
 
