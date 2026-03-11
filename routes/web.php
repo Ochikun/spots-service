@@ -7,8 +7,8 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function {
-    return redirect()->route('showLoginForm');
+Route::get('/', function () {
+    return redirect()->route('auth.showLoginForm');
 });
 
 //未ログイン用
