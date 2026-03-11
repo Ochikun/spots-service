@@ -12,6 +12,9 @@ services:
         ports:
             - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        dns:
+            - 8.8.8.8
+            - 1.1.1.1
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1

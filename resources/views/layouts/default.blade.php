@@ -1,6 +1,7 @@
-@extends('layouts.app')
+
 <html lang="ja">
     <head>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <title>@yield('title', '旅日記')</title>
         <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
