@@ -7,6 +7,10 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function {
+    return redirect()->route('showLoginForm');
+});
+
 //未ログイン用
 Route::middleware('guest')
     ->name('auth.')
