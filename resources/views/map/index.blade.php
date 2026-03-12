@@ -105,7 +105,7 @@
                     <div class="flex pb-4 border-b mb-4 items-center">
                         <h3 class="text-xl font-bold">日記登録</h3>
                         <div class="ml-auto">
-                            <button type="submit" class="py-2 px-4 text-sm text-white font-semibold bg-indigo-500 rounded-lg hover:bg-indigo-600">保存</button>
+                            <button type="submit" id="submit_button" class="py-2 px-4 text-sm text-white font-semibold bg-indigo-500 rounded-lg hover:bg-indigo-600">保存</button>
                         </div>
                     </div>
 
@@ -201,11 +201,12 @@
                 //画像プレビュー
                 const imageInput = document.getElementById('image');
                 const previewImage = document.getElementById('previewImage');
+                const submitBtn = document.getElementById('submit_button');
 
                 //画像Heic拡張子をjpg変換
                 imageInput.onchange = async () => {
                     if(imageInput.files.length === 0) return;
-                    const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput);
+                    const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput,submitBtn);
                     previewImage.src = url;
                 };
 

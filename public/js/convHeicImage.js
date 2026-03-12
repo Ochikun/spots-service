@@ -33,15 +33,44 @@ window.convHeicToImage = async function(file)
   }
 };
 
-window.handleHeicAndReplace = async function(file, inputElement){
+window.handleHeicAndReplace = async function(file, inputElement,submitBtn){
   if (!file) return null;
-  //{previewUrl:URL, newFile:file}が返る
-  const result = await window.convHeicToImage(file);
 
-  if(file !== result.newFile){
+  let originalText = '';
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    originalText = submitBtn.innerText;
+    submitBtn.innerText = '画像変換中...';
+  }
+
+
+  try{
+    //{previewUrl:URL, newFile:file}が返る
+    const result = await window.convHeicToImage(file);
+
+    if(file !== result.newFile){
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(result.newFile);
       inputElement.files = dataTransfer.files;
+    }
+    return result.previewUrl;
+  }finally{
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = originalText;
+    }
   }
-  return result.previewUrl;
+
+
+
+
+
+
+
+
+
+
+
+
 }
