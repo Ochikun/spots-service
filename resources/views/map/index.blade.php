@@ -102,6 +102,8 @@
             <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-auto relative my-auto">
                 <form method="POST" action="{{route('spots.store')}}" enctype="multipart/form-data" id="spotForm" class="p-6">
                     @csrf
+                    <input type="hidden" name="image_base64" id="image_base64">
+
                     <div class="flex pb-4 border-b mb-4 items-center">
                         <h3 class="text-xl font-bold">日記登録</h3>
                         <div class="ml-auto">
@@ -202,6 +204,7 @@
                 const imageInput = document.getElementById('image');
                 const previewImage = document.getElementById('previewImage');
                 const submitBtn = document.getElementById('submit_button');
+                const hidden = document.getElementById('image_base64');
 
                 //画像Heic拡張子をjpg変換
                 imageInput.onchange = async () => {
@@ -210,6 +213,11 @@
                     previewImage.src = url;
                 };
 
+                document.getElementById('spotForm').addEventListener('submit', function() {
+                    if (previewImage.src.startsWith('data:image')) {
+                            hidden.value = previewImage.src;
+                        }
+                });
 
                 //バリデーションエラー時のモーダル表示
                 @if($errors->any())
