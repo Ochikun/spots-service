@@ -21,7 +21,7 @@ class UpdateSpotRequest extends FormRequest
             'image' => [
                 'nullable',
                 'file:image',
-                'mimes:jpg,jpeg,png',
+                'mimes:jpg,jpeg,png,heic,heif',
                 'max:6000'
             ],
         ];

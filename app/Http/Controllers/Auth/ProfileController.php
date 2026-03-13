@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Imagick\Driver;
 
 class ProfileController extends Controller
 {
@@ -22,21 +25,25 @@ class ProfileController extends Controller
     {
         $updateData = $request->validated();
         $user = Auth::user();
-        try{
+
             if($request->hasFile('image')){
                 if(!empty($user->image)){
                     Storage::disk('s3')->delete($user->image);
                 }
-                $updateData['image'] = $request->file('image')->store('photos','s3');
+                $imgManager = new ImageManager(new Driver());
+
+                $imgFile = $request->file('image');
+                $image = $imgManager->read($imgFile);
+
+                $encoded = $image->toJpeg(70);
+                $fileName = 'photos/' . Str::random(40) . '.jpg';
+
+                Storage::disk('s3')->put($fileName,(string) $encoded);
+                $updateData['image'] = $fileName;
             }
             $user->update($updateData);
 
             return to_route('auth.profile.edit')->with('success','プロフィールを更新しました');
-
-        }catch(Exception $e){
-            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
-        }
-
     }
 
     public function destroy(User $user)

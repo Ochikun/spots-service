@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Imagick\Driver;
 class SpotController extends Controller
 {
     //日記一覧表示
@@ -34,20 +36,22 @@ class SpotController extends Controller
     {
         $validated = $request->validated();
         //s3への保存とファイルパスを返す
-        try{
             if($request->hasFile('image')){
-                $validated['image'] = $request->file('image')->store('photos','s3');
+                $imgManager = new ImageManager(new Driver());
+
+                $imgFile = $request->file('image');
+                $image = $imgManager->read($imgFile);
+
+                $encoded = $image->toJpeg(70);
+                $fileName = 'photos/' . Str::random(40) . '.jpg';
+
+                Storage::disk('s3')->put($fileName,(string) $encoded);
+                $validated['image'] = $fileName;
             }
 
             Auth::user()->spots()->create($validated);
 
             return to_route('map.index')->with('success','日記を追加しました');
-
-        }catch(Exception $e){
-            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
-        }
-
-
     }
 
     //日記の詳細表示
@@ -109,19 +113,25 @@ class SpotController extends Controller
     {
         $spot = Auth::user()->spots()->findOrFail($id);
         $updateData = $request->validated();
-        try{
+
             if($request->hasFile('image')){
                 if(!empty($spot->image)){
                     Storage::disk('s3')->delete($spot->image);
                 }
-                $updateData['image'] = $request->file('image')->store('photos','s3');
+                $imgManager = new ImageManager(new Driver());
+
+                $imgFile = $request->file('image');
+                $image = $imgManager->read($imgFile);
+
+                $encoded = $image->toJpeg(70);
+                $fileName = 'photos/' . Str::random(40) . '.jpg';
+
+                Storage::disk('s3')->put($fileName,(string) $encoded);
+                $updateData['image'] = $fileName;
             }
             $spot->update($updateData);
 
             return to_route('spots.show',['spot' => $spot])->with('success','日記を更新しました');
-        }catch(Exception $e){
-            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
-        }
 
     }
 
