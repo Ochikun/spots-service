@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Imagick\Driver;
 class SpotController extends Controller
 {
     //日記一覧表示
@@ -35,7 +37,16 @@ class SpotController extends Controller
         $validated = $request->validated();
         //s3への保存とファイルパスを返す
             if($request->hasFile('image')){
-                $validated['image'] = $request->file('image')->store('photos','s3');
+                $imgManager = new ImageManager(new Driver());
+
+                $imgFile = $request->file('image');
+                $image = $imgManager->read($imgFile);
+
+                $encoded = $image->toJpeg(70);
+                $fileName = 'photos/' . Str::random(40) . '.jpg';
+
+                Storage::disk('s3')->put($fileName,(string) $encoded);
+                $validated['image'] = $fileName;
             }
 
             Auth::user()->spots()->create($validated);
@@ -102,12 +113,21 @@ class SpotController extends Controller
     {
         $spot = Auth::user()->spots()->findOrFail($id);
         $updateData = $request->validated();
-        
+
             if($request->hasFile('image')){
                 if(!empty($spot->image)){
                     Storage::disk('s3')->delete($spot->image);
                 }
-                $updateData['image'] = $request->file('image')->store('photos','s3');
+                $imgManager = new ImageManager(new Driver());
+
+                $imgFile = $request->file('image');
+                $image = $imgManager->read($imgFile);
+
+                $encoded = $image->toJpeg(70);
+                $fileName = 'photos/' . Str::random(40) . '.jpg';
+
+                Storage::disk('s3')->put($fileName,(string) $encoded);
+                $updateData['image'] = $fileName;
             }
             $spot->update($updateData);
 
