@@ -201,12 +201,11 @@
                 //画像プレビュー
                 const imageInput = document.getElementById('image');
                 const previewImage = document.getElementById('previewImage');
-                const submitBtn = document.getElementById('submit_button');
 
                 //画像Heic拡張子をjpg変換
                 imageInput.onchange = async () => {
                     if(imageInput.files.length === 0) return;
-                    const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput,submitBtn);
+                    const url = await window.handleHeicAndReplace(imageInput.files[0]);
                     previewImage.src = url;
                 };
 

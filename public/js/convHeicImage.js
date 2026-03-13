@@ -1,47 +1,25 @@
+window.handleHeicAndReplace = async function(file) {
+    if (!file) return null;
 
-window.convHeicToImage = async function(file)
-{
-  if(!file || !(file.type === "" && file.name.toLowerCase().endsWith(".heic")))
-  {
-    return {
-      previewUrl: URL.createObjectURL(file),
-      newFile: file
-    };
-  }
+    const fileName = file.name.toLowerCase();
+    const isHeic = file.type === "" && fileName.endsWith(".heic");
 
-  try{
-    const blob = await heic2any({
-      blob:file,
-      toType: "image/jpeg",
-      quality: 0.7
-    });
-    const newFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
-      type: "image/jpeg",
-    });
+    // HEIC以外ならそのままURLを生成して返す
+    if (!isHeic) {
+        return URL.createObjectURL(file);
+    }
 
-    return {
-      previewUrl: URL.createObjectURL(blob),
-      newFile: newFile
-    };
-  }catch(err){
-    console.error("画像の変換に失敗しました",err);
-    return{
-      //.heicファイルをそのまま返してlaravelのrequestで弾く
-      previewUrl: URL.createObjectURL(file),
-      newFile: file
-    };
-  }
+    try {
+        // HEICの場合のみheic2anyで変換
+        const blob = await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+            quality: 0.7
+        });
+        return URL.createObjectURL(blob);
+    } catch (err) {
+        console.error("プレビュー用の画像変換に失敗しました:", err);
+        // 失敗した場合は元のファイルのURLを返す
+        return URL.createObjectURL(file);
+    }
 };
-
-window.handleHeicAndReplace = async function(file, inputElement){
-  if (!file) return null;
-  //{previewUrl:URL, newFile:file}が返る
-  const result = await window.convHeicToImage(file);
-
-  if(file !== result.newFile){
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(result.newFile);
-      inputElement.files = dataTransfer.files;
-  }
-  return result.previewUrl;
-}

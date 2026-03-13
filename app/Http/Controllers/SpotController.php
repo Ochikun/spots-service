@@ -34,7 +34,6 @@ class SpotController extends Controller
     {
         $validated = $request->validated();
         //s3への保存とファイルパスを返す
-        try{
             if($request->hasFile('image')){
                 $validated['image'] = $request->file('image')->store('photos','s3');
             }
@@ -42,12 +41,6 @@ class SpotController extends Controller
             Auth::user()->spots()->create($validated);
 
             return to_route('map.index')->with('success','日記を追加しました');
-
-        }catch(Exception $e){
-            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
-        }
-
-
     }
 
     //日記の詳細表示
@@ -109,7 +102,7 @@ class SpotController extends Controller
     {
         $spot = Auth::user()->spots()->findOrFail($id);
         $updateData = $request->validated();
-        try{
+        
             if($request->hasFile('image')){
                 if(!empty($spot->image)){
                     Storage::disk('s3')->delete($spot->image);
@@ -119,9 +112,6 @@ class SpotController extends Controller
             $spot->update($updateData);
 
             return to_route('spots.show',['spot' => $spot])->with('success','日記を更新しました');
-        }catch(Exception $e){
-            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
-        }
 
     }
 

@@ -22,7 +22,7 @@ class ProfileController extends Controller
     {
         $updateData = $request->validated();
         $user = Auth::user();
-        try{
+
             if($request->hasFile('image')){
                 if(!empty($user->image)){
                     Storage::disk('s3')->delete($user->image);
@@ -32,11 +32,6 @@ class ProfileController extends Controller
             $user->update($updateData);
 
             return to_route('auth.profile.edit')->with('success','プロフィールを更新しました');
-
-        }catch(Exception $e){
-            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
-        }
-
     }
 
     public function destroy(User $user)
