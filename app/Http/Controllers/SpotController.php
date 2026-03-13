@@ -34,6 +34,12 @@ class SpotController extends Controller
     //日記保存処理
     public function store(StoreSpotRequest $request)
     {
+        dd(
+        'PHP上限:', ini_get('upload_max_filesize'),
+        'POST上限:', ini_get('post_max_size'),
+        '届いたファイル:', $request->file('image'));
+
+        
         $validated = $request->validated();
         //s3への保存とファイルパスを返す
             if($request->hasFile('image')){

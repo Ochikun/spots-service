@@ -206,27 +206,8 @@
                 imageInput.onchange = async () => {
                     if(imageInput.files.length === 0) return;
                     const url = await window.handleHeicAndReplace(imageInput.files[0]);
-
-
-                    alert(`【選択時】\nType: ${file.type || '不明'}\nSize: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
-                    try {
-                        const url = await window.handleHeicAndReplace(file);
-                        previewImage.src = url;
-
-                        // 2. Base64変換後のチェック
-                        // handleHeicAndReplace内でimageInput.files[0]をDataURLに書き換えているか確認
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const isBase64 = e.target.result.startsWith('data:image/');
-                            alert(`【変換後】\nBase64判定: ${isBase64 ? 'YES' : 'NO'}\n先頭: ${e.target.result.substring(0, 30)}...`);
-                        };
-                        reader.readAsDataURL(imageInput.files[0]);
-
-                    } catch (e) {
-                        alert("Error: " + e.message);
-                    }
-                };
-                    // previewImage.src = url;
+                    
+                    previewImage.src = url;
                 };
 
 

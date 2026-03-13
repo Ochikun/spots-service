@@ -16,16 +16,16 @@ class StoreSpotRequest extends FormRequest
         return [
             'title' => ['nullable','max:255'],
             'body' => ['nullable','max:2000'],
-            'date' => ['required','date'],
+            // 'date' => ['required','date'],
             'image' =>[
                 'nullable',
-                'file:image',
-                'mimes:jpg,jpeg,png,heic,heif',
-                'max:6000'
+                // 'file:image',
+                // 'mimes:jpg,jpeg,png,heic,heif',
+                // 'max:20000'
             ],
-            'category_id' => ['required','exists:categories,id'],
-            'lat' => ['required'],
-            'lng' => ['required'],
+            // 'category_id' => ['required','exists:categories,id'],
+            // 'lat' => ['required'],
+            // 'lng' => ['required'],
         ];
     }
 }
