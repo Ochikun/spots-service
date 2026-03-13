@@ -37,12 +37,6 @@ class SpotController extends Controller
         try{
             if($request->hasFile('image')){
                 $validated['image'] = $request->file('image')->store('photos','s3');
-            }elseif($request->filled('image_base64')) {
-                $base64Data = $request->input('image_base64');
-                $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
-                $fileName = 'photos/' . \Illuminate\Support\Str::random(40) . '.jpg';
-                Storage::disk('s3')->put($fileName, $imageData, 'public');
-                $validated['image'] = $fileName;
             }
 
             Auth::user()->spots()->create($validated);
@@ -50,7 +44,7 @@ class SpotController extends Controller
             return to_route('map.index')->with('success','日記を追加しました');
 
         }catch(Exception $e){
-            return back()->withErrors(['image' =>'保存エラー: ' . $e->getMessage()]);
+            return back()->withErrors(['image' =>'画像のアップロードに失敗しました']);
         }
 
 
