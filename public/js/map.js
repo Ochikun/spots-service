@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //住所検索機能
     const option = {
-        collapsed: false,
-        placeholder: '場所を入力してください',
+        collapsed: false, //コントローラーの折り畳み
+        placeholder: '場所を入力してください', //プレースホルダーテキスト
         errorMessage: '見つかりませんでした',
         showUniqueResult: false,
     }
