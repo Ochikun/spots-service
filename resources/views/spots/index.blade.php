@@ -85,7 +85,7 @@
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="divide-y divide-gray-100 whitespace-nowrap">
                     @foreach($spots as $spot)
                         <tr onclick="window.location='{{ route('spots.show', $spot->id) }}'"
                             @class(['text-sm', 'cursor-pointer', 'hover:bg-indigo-50', 'transition-colors', 'bg-gray-100' => $loop->odd])>

@@ -22,7 +22,7 @@ class UpdateSpotRequest extends FormRequest
                 'nullable',
                 'file:image',
                 'mimes:jpg,jpeg,png,heic,heif',
-                'max:6000'
+                'max:20000'
             ],
         ];
     }

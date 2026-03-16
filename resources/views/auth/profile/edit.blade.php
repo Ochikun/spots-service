@@ -19,7 +19,7 @@
 
                       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 pb-8 border-b border-gray-100">
                           <div class="relative">
-                            <!--既定画像表示　登録-->
+                            <!--画像表示　登録-->
                               <img id="previewImage" src="{{\Auth::user()->S3Url ?? asset('storage/photos/noprofile.jpg')}}" class="w-24 h-24 rounded-full object-cover border-2 border-gray-100 shadow-sm">
                               <label class="absolute bottom-0 right-0 bg-white p-1.5 rounded-full shadow-md border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
                                   <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
                                   <input type="file" id="image" name="image" class="hidden" accept="image/*">
                               </label>
                           </div>
-                          <!--既定画像表示　登録-->-->
+                          <!--画像表示　登録-->-->
                           <div>
                               <h3 class="text-sm font-bold text-gray-700">プロフィール写真</h3>
                               <p class="text-xs text-gray-500 mt-1">JPG, JPEG, PNG形式 (最大 2MB)</p>
@@ -86,7 +86,7 @@
       </div>
   </div>
 
-  <script src="/js/convHeicImage.js"></script>
+  <script src="/js/heicPreview.js"></script>
   <script>
         //画像プレビュー
     const imageInput = document.getElementById('image');
@@ -94,10 +94,8 @@
 
     //画像Heic拡張子をjpg変換
     imageInput.onchange = async () => {
-        if(imageInput.files.length === 0) return;
-        const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput);
+        const url = await window.handleHeicImg(imageInput.files[0]);
         previewImage.src = url;
-
     };
 
   </script>

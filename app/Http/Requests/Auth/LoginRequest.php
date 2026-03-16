@@ -5,8 +5,8 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\RateLimiter; // レートリミット用
-use Illuminate\Support\Str; // 文字列操作(throttleKey)用
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
     class LoginRequest extends FormRequest
     {
@@ -46,7 +46,7 @@ use Illuminate\Support\Str; // 文字列操作(throttleKey)用
         }
     }
 
-    protected function throttleKey(): string
+    private function throttleKey(): string
     {
         return strtolower($this->input('email')).'|'.$this->ip();
     }

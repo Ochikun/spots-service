@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use Exception;
+use App\Services\ImageService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Illuminate\Support\Str;
-use Intervention\Image\Drivers\Imagick\Driver;
 
 class ProfileController extends Controller
 {
@@ -21,7 +19,7 @@ class ProfileController extends Controller
     }
 
 
-    public function update(UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request, ImageService $imageService)
     {
         $updateData = $request->validated();
         $user = Auth::user();
@@ -30,15 +28,9 @@ class ProfileController extends Controller
                 if(!empty($user->image)){
                     Storage::disk('s3')->delete($user->image);
                 }
-                $imgManager = new ImageManager(new Driver());
-
                 $imgFile = $request->file('image');
-                $image = $imgManager->read($imgFile);
+                $fileName = $imageService->saveImage($imgFile);
 
-                $encoded = $image->toJpeg(70);
-                $fileName = 'photos/' . Str::random(40) . '.jpg';
-
-                Storage::disk('s3')->put($fileName,(string) $encoded);
                 $updateData['image'] = $fileName;
             }
             $user->update($updateData);

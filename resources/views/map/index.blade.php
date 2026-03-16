@@ -120,7 +120,7 @@
 
                         <div class="mb-4">
                             <label class="block text-sm font-medium mb-1">訪問日時</label>
-                            <input class="block w-full px-3 py-2 text-sm border rounded-lg" type="date" name="date" value="{{date('Y-m-d')}}">
+                            <input class="block w-full px-3 py-2 text-base border rounded-lg outline-none" type="date" name="date" value="{{date('Y-m-d')}}">
                             @error('date')
                                 <p class="error-message text-red-500 text-sm mt-1">{{$message}}</p>
                             @enderror
@@ -139,14 +139,10 @@
                             <img id="previewImage" src="{{asset('storage/' . ($spot->image ?? 'photos/noprofile.jpg'))}}"
                                 class="rounded w-32 h-32 object-cover mb-3 block">
                                 <div class="flex items-center space-x-2">
-                                    <label for="image" class="cursor-pointer whitespace-nowrap inline-block px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded hover:bg-indigo-400">
+                                    <label for="image" class="ml-3 cursor-pointer whitespace-ellipsis inline-block px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded hover:bg-indigo-400">
                                         画像を選択
                                     </label>
-                                    <input id="image"
-                                            type="file"
-                                            name="image"
-                                            accept="image/*"
-                                            class="file:hidden block text-sm border rounded px-3 py-2 w-60">
+                                    <input id="image" type="file" name="image" accept="image/*" class="hidden">
                                 </div>
                             @error('image')
                                 <p class="error-message text-red-500 text-sm mt-1">{{$message}}</p>
@@ -181,7 +177,7 @@
         <!--モーダル登録メニュー-->
 
         <script src="/js/map.js"></script>
-        <script src="/js/convHeicImage.js"></script>
+        <script src="/js/heicPreview.js"></script>
         <script>
             window.spots = @json($spots);
             window.spotShowUrl = "{{ route('spots.show', ':id') }}";
@@ -204,8 +200,8 @@
 
                 //画像Heic拡張子をjpg変換
                 imageInput.onchange = async () => {
-                    if(imageInput.files.length === 0) return;
-                    const url = await window.handleHeicAndReplace(imageInput.files[0]);
+                    const url = await window.handleHeicImg(imageInput.files[0]);
+
                     previewImage.src = url;
                 };
 

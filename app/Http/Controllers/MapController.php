@@ -15,11 +15,10 @@ class MapController extends Controller
 
         $categories =Category::all();
 
-        //withでクエリの過剰発行を抑える
         $query = Auth::user()->spots()->with('category');
 
         //spots.showからの呼出しの場合は1件の記事をmap.indexに渡して表示
-        //初回読込時,フィルター適用時は$searchServiceでクエリビルダを発行
+        //初回読込,フィルター適用時は$searchServiceでクエリビルダを発行
         if($request->has('spot_id')){
             $spots = Auth::user()->spots()->where('id', $request->spot_id)->get();
         } else{

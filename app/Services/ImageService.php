@@ -3,28 +3,31 @@
 namespace App\Services;
 
 use Exception;
-use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ImageService
 {
-    public function saveImage(UploadedFile $file)
+    public function saveImage(UploadedFile $imgFile)
     {
-        //imageの生ファイル取得
-        $image = Image::read($file);
+        //s3への保存とファイルパスを返す
+        try{
+            $imgManager = new ImageManager(new Driver());
+            $image = $imgManager->read($imgFile);
 
-        $image->scale(width: 1200);
-        $encoded = $image->toJpeg(80);
+            $encoded = $image->toJpeg(70);
+            $fileName = 'photos/' . Str::random(40) . '.jpg';
+            Storage::disk('s3')->put($fileName,(string) $encoded);
 
-        //imageをs3に保存 ファイルパスを返す
-        $folder = 'photos';
-        $fileName = $folder . '/' . Str::random(40) . '.jpg';
+            return $fileName;
 
-        $result = Storage::disk('s3')->put($fileName, $encoded->toString());
-        if(!$result){throw new Exception('S3もしくはDBへの保存に失敗しました');}
+        }catch (Exception $e){
+            \Log::error('画像保存エラー:'.$e->getMessage());
+            return null;
+        }
 
-        return $fileName;
     }
 }

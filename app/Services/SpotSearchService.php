@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 class SpotSearchService
 {
-    //$queryはクエリビルダ,
-    //$requestはfilterのkey,valueをまとめたオブジェクト
     public function applyQuery($query, $request)
     {
         $this->applyFilter($request,$query);
