@@ -3,7 +3,7 @@
   ここにサイトの画像を置く
 
 # URL
-ここにURLを置く
+https://och-sample.com/login
 
 # 使用技術
 
@@ -11,7 +11,7 @@
 - **Language:** PHP 8.4 / JavaScript
 - **Framework:** Laravel 12.46.0
 - **CSS:** Tailwind CSS
-- **Library:** Leaflet.js, heic2any
+- **Library:** Leaflet.js, intervention image
 
 ### インフラ / 実行環境
 - **Server:** Nginx
