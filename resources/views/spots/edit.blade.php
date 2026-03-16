@@ -23,7 +23,7 @@
 
             <div class="mb-6">
                 <label class="block text-sm font-medium mb-2">訪問日時</label>
-                <input class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded" type="date" name="date" value="{{old('date',$spot->date)}}">
+                <input class="block w-full px-4 py-3 mb-2 text-base bg-white border rounded" type="date" name="date" value="{{old('date',$spot->date)}}">
                 @error('date')
                     <p class="error-message text-red-500 text-sm mt-1">{{$message}}</p>
                 @enderror
@@ -43,10 +43,10 @@
                 <img id="previewImage" src="{{$spot->S3Url ?? asset(('storage/photos/noprofile.jpg'))}}" class="rounded w-40 h-40 object-cover mb-3">
                 <!-- ファイル選択ボタン -->
                 <div class="flex items-center space-x-3">
-                    <label for="image" class="cursor-pointer inline-block px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded hover:bg-indigo-400">
+                    <label for="image" class="ml-7 cursor-pointer inline-block px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded hover:bg-indigo-400">
                         画像を選択
                     </label>
-                    <input id="image" type="file" name="image" accept="image/*" class="file:hidden block text-sm border rounded px-3 py-2 w-80">
+                    <input id="image" type="file" name="image" accept="image/*" class="hidden">
                 </div>
                 @error('image')
                     <p class="error-message text-red-500 text-sm mt-1">{{$message}}</p>
@@ -56,7 +56,7 @@
             <div class="mb-6">
                 <label class="block text-sm font-medium mb-2">カテゴリ</label>
                 <div class="flex">
-                        <select class="block pl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded" name="category_id">
+                        <select class="block w-fullpl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded" name="category_id">
                         <option value="">選択してください</option>
                         @foreach($categories as $category)
                             <option value="{{$category->id}}" @if($category->id == old('category_id', $spot->category->id)) selected @endif>{{$category->name}}</option>
@@ -75,8 +75,8 @@
             </a>
         </div>
     </div>
-    
-    <script src="/js/convHeicImage.js"></script>
+
+    <script src="/js/heicPreview.js"></script>
     <script>
         //画像プレビュー
         const imageInput = document.getElementById('image');
@@ -84,8 +84,7 @@
 
         //画像Heic拡張子をjpg変換
         imageInput.onchange = async () => {
-            if(imageInput.files.length === 0) return;
-            const url = await window.handleHeicAndReplace(imageInput.files[0],imageInput);
+            const url = await window.handleHeicImg(imageInput.files[0]);
             previewImage.src = url;
 
         };

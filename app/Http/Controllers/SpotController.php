@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Services\SpotSearchService;
+use App\Services\ImageService;
 use App\Http\Requests\StoreSpotRequest;
 use App\Http\Requests\UpdateSpotRequest;
 use App\Models\Spot;
@@ -13,9 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-use Intervention\Image\ImageManager;
-use Illuminate\Support\Str;
-use Intervention\Image\Drivers\Imagick\Driver;
+
 class SpotController extends Controller
 {
     //日記一覧表示
@@ -32,20 +31,14 @@ class SpotController extends Controller
     }
 
     //日記保存処理
-    public function store(StoreSpotRequest $request)
+    public function store(StoreSpotRequest $request, ImageService $imageService)
     {
         $validated = $request->validated();
-        //s3への保存とファイルパスを返す
+        //s3保存,ファイルパスを返す
             if($request->hasFile('image')){
-                $imgManager = new ImageManager(new Driver());
-
                 $imgFile = $request->file('image');
-                $image = $imgManager->read($imgFile);
+                $fileName = $imageService->saveImage($imgFile);
 
-                $encoded = $image->toJpeg(70);
-                $fileName = 'photos/' . Str::random(40) . '.jpg';
-
-                Storage::disk('s3')->put($fileName,(string) $encoded);
                 $validated['image'] = $fileName;
             }
 
@@ -109,7 +102,7 @@ class SpotController extends Controller
     }
 
     //日記編集処理
-    public function update(UpdateSpotRequest $request, $id)
+    public function update(UpdateSpotRequest $request, $id, ImageService $imageService)
     {
         $spot = Auth::user()->spots()->findOrFail($id);
         $updateData = $request->validated();
@@ -118,15 +111,9 @@ class SpotController extends Controller
                 if(!empty($spot->image)){
                     Storage::disk('s3')->delete($spot->image);
                 }
-                $imgManager = new ImageManager(new Driver());
-
                 $imgFile = $request->file('image');
-                $image = $imgManager->read($imgFile);
+                $fileName = $imageService->saveImage($imgFile);
 
-                $encoded = $image->toJpeg(70);
-                $fileName = 'photos/' . Str::random(40) . '.jpg';
-
-                Storage::disk('s3')->put($fileName,(string) $encoded);
                 $updateData['image'] = $fileName;
             }
             $spot->update($updateData);
