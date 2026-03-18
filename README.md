@@ -4,6 +4,9 @@
   投稿した写真は地図上に画像付きで表示され、クリックすることで詳細画面へ遷移することができます。<br>
 
   ここにイメージを置く <br>
+  <img width="995" alt="AWSインフラ構成図" src="https://github.com/user-attachments/assets/a4954801-30e8-45e1-b653-8eb7ee1226e6">
+  <img width="995" alt="AWSインフラ構成図" src="https://github.com/user-attachments/assets/9e3b768e-934c-41ba-b668-0425f97c9b8d">
+  <img width="995" alt="AWSインフラ構成図" src="https://github.com/user-attachments/assets/b7376ac2-ae0d-4a33-a25b-13264b182304">
 
 # URL
 https://och-sample.com/login
@@ -42,8 +45,8 @@ Password:
     - 画像の変換,保存
   - 日記一覧 ・ 詳細表示
   - 検索・ソート機能
-    - タグ, キーワードによる検索
-    - 日付順,～～～～による並び替え
+    - カテゴリ,ワード,投稿日による検索
+    - 日付,タイトル順による並び替え
   - 地図・位置情報連携
     - 投稿の地図上マッピング
     - ピンと詳細画面の双方向遷移
