@@ -3,18 +3,15 @@
   地図をクリックすることで日記を投稿することができます。 <br>
   投稿した写真は地図上に画像付きで表示され、クリックすることで詳細画面へ遷移することができます。<br>
 
-  <p>
-    <img width="450" alt="spots-image-01" src="https://github.com/user-attachments/assets/a4954801-30e8-45e1-b653-8eb7ee1226e6">
-    <img width="450" alt="spots-image-02" src="https://github.com/user-attachments/assets/9e3b768e-934c-41ba-b668-0425f97c9b8d">
-  </p>
-
-  <img width="350" alt="spots-image-03" src="https://github.com/user-attachments/assets/b7376ac2-ae0d-4a33-a25b-13264b182304">
+<img width="400" alt="spots-image-01" src="https://github.com/user-attachments/assets/a4954801-30e8-45e1-b653-8eb7ee1226e6">
+<img width="400" alt="spots-image-02" src="https://github.com/user-attachments/assets/9e3b768e-934c-41ba-b668-0425f97c9b8d">
+<img width="350" alt="spots-image-03" src="https://github.com/user-attachments/assets/b7376ac2-ae0d-4a33-a25b-13264b182304">
 
 # URL
-https://och-sample.com/login
-サンプルアカウント
-ID:
-Password:
+https://och-sample.com/login <br>
+サンプルアカウント  <br>
+ID: <br>
+Password: <br>
 
 # 使用技術
 
