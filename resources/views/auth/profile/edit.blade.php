@@ -29,7 +29,7 @@
                                   <input type="file" id="image" name="image" class="hidden" accept="image/*">
                               </label>
                           </div>
-                          <!--画像表示　登録-->-->
+                          <!--画像表示　登録-->
                           <div>
                               <h3 class="text-sm font-bold text-gray-700">プロフィール写真</h3>
                               <p class="text-xs text-gray-500 mt-1">JPG, JPEG, PNG形式 (最大 2MB)</p>
@@ -87,16 +87,4 @@
   </div>
 
   <script src="/js/heicPreview.js"></script>
-  <script>
-        //画像プレビュー
-    const imageInput = document.getElementById('image');
-    const previewImage = document.getElementById('previewImage');
-
-    //画像Heic拡張子をjpg変換
-    imageInput.onchange = async () => {
-        const url = await window.handleHeicImg(imageInput.files[0]);
-        previewImage.src = url;
-    };
-
-  </script>
 @endsection

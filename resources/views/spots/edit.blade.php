@@ -77,19 +77,4 @@
     </div>
 
     <script src="/js/heicPreview.js"></script>
-    <script>
-        //画像プレビュー
-        const imageInput = document.getElementById('image');
-        const previewImage = document.getElementById('previewImage');
-
-        //画像Heic拡張子をjpg変換
-        imageInput.onchange = async () => {
-            const url = await window.handleHeicImg(imageInput.files[0]);
-            previewImage.src = url;
-
-        };
-
-
-    </script>
-
 @endsection
