@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const spotModal = document.getElementById("spotModal");
-    const modalLat = document.getElementById("modal-lat");
-    const modalLng = document.getElementById("modal-lng");
-    const closeModal = document.getElementById("closeModal");
 
     // map初期化 表示
     const map = L.map('map');
@@ -20,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     L.Control.geocoder(option).addTo(map);
 
-    // モーダルの初期化処理
+    // モーダルフォーム初期化処理
     map.on("click", function(e){//mapの緯度経度情報が入る
         //エラー表示削除
         document.querySelectorAll('.error-message').forEach(errorElement  => errorElement.remove());
@@ -35,34 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
         openModal(e.latlng.lat,e.latlng.lng);
     });
 
-    //モーダルを開く機能
-    window.openModal = function(lat = null, lng = null){
-        spotModal.classList.remove("hidden");
-        if((lat!==null) && (lng!==null)){
-            modalLat.value = lat;
-            modalLng.value = lng;
-        }
-    }
-
-    // モーダルを閉じる機能
-    closeModal.addEventListener("click",() => {
-        spotModal.classList.add("hidden");
-    });
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            spotModal.classList.add("hidden");
-        }
-    });
-    spotModal.addEventListener("click", (e) => {
-        if (e.target === spotModal) {
-            spotModal.classList.add("hidden");
-        }
-    });
 
     //地図に登録画像を描画
-    window.spots.forEach(spot => {
+    spots.forEach(spot => {
         const categoryColor = spot.category?.color || '#ffffff';
-        const url = window.spotShowUrl.replace(':id', spot.id);
+        const url = spotShowUrl.replace(':id', spot.id);
         const icon = L.divIcon({
             html: `
             <div style="position: relative; width: 60px; height: 60px;">
@@ -108,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         L.marker([spot.lat, spot.lng], { icon }).addTo(map);
     });
 
-    //マップのズーム距離最適化処理
+    //ズーム距離最適化処理
     //spots.show経由の場合は緯度経度を拡大して表示
     //データが一件のみの時に拡大表示されないようにする
     const params = new URLSearchParams(window.location.search);
@@ -122,8 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     //位置情報取得、地図移動
-    let currLocMarker = null;
-    window.setMyLocation = function() {
+    let locMarker = null;
+    document.getElementById('setMyLocation')
+        .addEventListener('click',function(){
+
         if (!navigator.geolocation) {
             alert("お使いのブラウザは位置情報に対応していません。");
             return;
@@ -134,17 +109,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
 
-                if (currLocMarker) {
-                    map.removeLayer(currLocMarker);
+                if (locMarker) {
+                    map.removeLayer(locMarker);
                 }
-                currLocMarker = L.marker([lat, lng]).addTo(map);
+                locMarker = L.marker([lat, lng]).addTo(map);
                 map.setView([lat, lng], 15);
             },
 
             function(e) {
                 alert("位置情報の取得に失敗しました。設定を確認してください。");
             }
+
         );
-    }
+    });
 
 });

@@ -33,7 +33,7 @@
 
                             <div class="col-span-2 md:w-48">
                                 <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">現在地</label>
-                                <button type="button" onclick="setMyLocation()"
+                                <button type="button" id="setMyLocation"
                                     class="w-full flex items-center justify-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-lg px-3 py-2 text-sm font-bold hover:bg-indigo-100 ">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -175,42 +175,16 @@
             </div>
         </div>
         <!--モーダル登録メニュー-->
-
+        <script src="/js/mapModal.js"></script>
         <script src="/js/map.js"></script>
         <script src="/js/heicPreview.js"></script>
         <script>
-            window.spots = @json($spots);
-            window.spotShowUrl = "{{ route('spots.show', ':id') }}";
-
-            document.addEventListener('DOMContentLoaded', function() {
-
-                //モバイル用フィルター画面開閉メニュー
-                const toggle = document.getElementById('filterToggle');
-                const body = document.getElementById('filterBody');
-                const arrow = document.getElementById('filterArrow');
-
-                toggle.addEventListener('click', function() {
-                    body.classList.toggle('hidden');
-                    arrow.classList.toggle('rotate-180');
-                });
-
-                //画像プレビュー
-                const imageInput = document.getElementById('image');
-                const previewImage = document.getElementById('previewImage');
-
-                //画像Heic拡張子をjpg変換
-                imageInput.onchange = async () => {
-                    const url = await window.handleHeicImg(imageInput.files[0]);
-
-                    previewImage.src = url;
-                };
-
-
-                //バリデーションエラー時のモーダル表示
+            const spots = @json($spots);
+            const spotShowUrl = "{{ route('spots.show', ':id') }}";
+            //バリデーションエラー時のモーダル表示
+            document.addEventListener("DOMContentLoaded", () => {
                 @if($errors->any())
-                    if (typeof openModal === 'function') {
-                        openModal();
-                    }
+                    openModal();
                 @endif
             });
         </script>
