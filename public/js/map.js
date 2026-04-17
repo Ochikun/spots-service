@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //データが一件のみの時に拡大表示されないようにする
     const params = new URLSearchParams(window.location.search);
     const hasSpotId = params.has('spot_id');
-    if (hasSpotId && window.spots.length === 1) {
-        const spot = window.spots[0];
+    if (hasSpotId && spots.length === 1) {
+        const spot = spots[0];
         map.setView([spot.lat, spot.lng], 16);
     } else {
         map.setView([37.681236, 139.767125], 6);
