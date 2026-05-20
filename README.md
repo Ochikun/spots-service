@@ -6,7 +6,8 @@
 <img width="400" alt="spots-image-01" src="https://github.com/user-attachments/assets/a4954801-30e8-45e1-b653-8eb7ee1226e6">
 <img width="400" alt="spots-image-02" src="https://github.com/user-attachments/assets/9e3b768e-934c-41ba-b668-0425f97c9b8d">
 <img width="350" alt="spots-image-03" src="https://github.com/user-attachments/assets/b7376ac2-ae0d-4a33-a25b-13264b182304">
-<img width="400" height="192" alt="Image" src="https://github.com/user-attachments/assets/1ba3a35b-0ea0-48cc-aa35-20471fe70f9f" />
+<img width="400" height="300" alt="Image" src="https://github.com/user-attachments/assets/1ba3a35b-0ea0-48cc-aa35-20471fe70f9f"/>
+<br>
 # URL
 https://och-sample.com/login <br>
 ※コストの関係により公開を停止することがございます
